@@ -111,11 +111,18 @@ $(function(){
     $(document).keydown(function(event) {
         if (event.which === 8 || event.which === 46) {
             // １文字削除
+            console.log('delete:');
             if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
-                text.data[text.page] = strDel(text.data[text.page], cursor.i);
-                console.log('削除:');
+                setTextStr(strDel(getTextStr(), cursor.i));
+
+                // 文字がはみ出ている場合
+                if (getTextStr().length > cells.arr.length) {
+                    cursor.i--;
+                }
                 updateText();
-            } else if (0 > cursor.i) {
+            } else if (0 > cursor.i && text.page > 0) {
+                // 1ページ前の末尾を削除
+                setTextStr(strDel(getTextStr(text.page - 1), getTextStr(text.page - 1).length - 1), text.page - 1);
                 updatePage('prev');
             }
         } else if (cursor.move.keys.indexOf(event.key) !== -1) {
@@ -130,14 +137,14 @@ $(function(){
         },
         'compositionend': function() {
             ime_flg = false;
-            text.data[text.page] = strIns(text.data[text.page], cursor.i + 1, $mp_t.val());
-            console.log(text.data[text.page]);
+            setTextStr(strIns(getTextStr(), cursor.i + 1, $mp_t.val()));
+            console.log(getTextStr());
             updateText();
             $mp_t.val('');
         },
         'keydown': function(e) {
             if (!ime_flg && (e.key.length === 1 || e.key === 'Enter')) {
-                text.data[text.page] = strIns(text.data[text.page], cursor.i + 1, (e.key === 'Enter' ? "←" : e.key));
+                setTextStr(strIns(getTextStr(), cursor.i + 1, (e.key === 'Enter' ? "←" : e.key)));
                 updateText();
                 $mp_t.val('');
             }
@@ -285,7 +292,8 @@ $(function(){
     }
 
     function updateText() {
-        console.log("text:" + text.data[text.page]);
+        console.log("text:" + getTextStr());
+        console.log(text);
         $mpl.clearCanvas();
 
         var count = 0, rotate = 0, center_adj = 0;
@@ -295,59 +303,48 @@ $(function(){
                 x: 0, y: 0
             }
         }
-        var limit = Math.min(text.data[text.page].length, row_count * col_count);
+        var limit = Math.min(getTextStr().length, row_count * col_count);
         cells = { arr:[], arr2d: [] };
 
         for (var i = 0; i < limit; i++) {
 
             // 縦書き用に90度回転させる
-            rotate = jQuery.inArray(text.data[text.page][i], '（）[]【】「」]ー―-') === -1 ? 0 : 90;
+            rotate = jQuery.inArray(getTextStr()[i], '（）[]【】「」]ー―-') === -1 ? 0 : 90;
 
             // 欄外にはみ出して表示させる
             if ((pos.cell.y === col_count
-                && jQuery.inArray(text.data[text.page][i], '。、」') === -1)
+                && jQuery.inArray(getTextStr()[i], '。、」') === -1)
                 || pos.cell.y > col_count) {
                 pos.cell.y = 0;
                 pos.cell.x++;
 
                 // 最終列を過ぎていた場合
-                if (pos.cell.x > row_count - 1) {
-                    // text.data[text.page + 1] = text.data[text.page].slice(i);
-                    // text.data[text.page] = text.data[text.page].slice(0, i - 1);
-                    break;
-                    // updatePage('next');
-                    // return;
-                }
+                if (pos.cell.x > row_count - 1) break;
             }
 
             // 中央の幅を調整する
             center_adj = pos.cell.x >= col_count / 2 ? row_space_center : 0;
 
             $mpl.drawText({
-                fillStyle: text.data[text.page][i] !== "←" ? colors.text : colors.enter,
+                fillStyle: getTextStr()[i] !== "←" ? colors.text : colors.enter,
                 strokeWidth: 1,
                 x: pos.ini.x - pos.cell.x * (cell_h + row_space) - center_adj,
                 y: pos.ini.y + pos.cell.y * cell_h,
                 fontSize: cell_h * 0.8,
                 fromCenter: true,
                 fontFamily: 'monospace, serif',
-                text: text.data[text.page][i],
+                text: getTextStr()[i],
                 rotate: rotate
             });
-            setCell(pos.cell.x, pos.cell.y, text.data[text.page][i]);
+            setCell(pos.cell.x, pos.cell.y, getTextStr()[i]);
 
-            if (text.data[text.page][i] === "←") {
+            if (getTextStr()[i] === "←") {
                 pos.cell.y = 0;
                 pos.cell.x++;
 
                 // 最終列を過ぎていた場合
-                if (pos.cell.x > row_count - 1) {
-                    break;
-                    // text.data[text.page] = text.data[text.page].slice(0, -1);
-                    // text.data[text.page + 1] = '';
-                    // updatePage('next');
-                    // return;
-                }
+                if (pos.cell.x > row_count - 1) break;
+
                 continue;
             }
 
@@ -358,7 +355,7 @@ $(function(){
 
         updateCursor();
 
-        updateRuby('あ', 2, 4);
+        // updateRuby('あ', 2, 4);
     }
 
     function setCell(x, y, str) {
@@ -389,6 +386,11 @@ $(function(){
         }
 
         cursor.trans = cells.arr2d[x][y].i - (cells.arr.length - 1);
+
+        // 末尾が改行の場合は改行の前に合わせる
+        if (cells.arr2d[x][y].str === '←') {
+            cursor.trans--;
+        }
         updateCursor();
     }
 
@@ -405,6 +407,9 @@ $(function(){
         } else {
             var x = cursor.cell.x + opt.add;
             var y = cursor.cell.y;
+
+            console.log('x: ' + x);
+            console.log('y: ' + y);
 
             // ページ遷移が起きる場合
             if (x > row_count - 1 && updatePage('next')) {
@@ -461,7 +466,7 @@ $(function(){
         $mpc.clearCanvas();
 
         // カーソルを何文字目に表示するか判定
-        cursor.i = cells.arr.length - 1 + cursor.trans;
+        cursor.i = getTextStr().length - 1 + cursor.trans;
         if (cursor.i < 0) {
             cursor.cell.x = 0;
             cursor.cell.y = -1;
@@ -474,9 +479,8 @@ $(function(){
         }
 
         // カーソルが次のページに移動した場合
-        if (cursor.cell.x > row_count - 1) {
-            var i = cells.arr2d[row_count - 1][cells.arr2d[row_count - 1].length - 1].i;
-            text.data[text.page + 1] = text.data[text.page].slice(i + 1);
+        if (cursor.cell.x > row_count - 1
+            || (getTextStr().length > cells.arr.length && cursor.cell.x === row_count - 1 && cursor.cell.y === col_count - 1)) {
             updatePage('next');
             return;
         }
@@ -545,7 +549,12 @@ $(function(){
     }
 
     function updatePage(type) {
-        if (type === 'next' && text.page + 1 in text.data) {
+        if (type === 'next') {
+            var i = getLastCellIndex();
+            if (getTextStr().length < i + 1) return false;
+
+            text.index[text.page + 1] = text.index[text.page] + i + 1;
+            setTextStr(getTextStr().slice(i + 1), text.page + 1);
             text.page++;
         } else if(type === 'prev' && text.page > 0) {
             text.page--;
@@ -556,12 +565,18 @@ $(function(){
         return true;
     }
 
-    function getTextStr() {
-        return text.str.slice(text.index[text.page]);
+    function getLastCellIndex() {
+        return cells.arr2d[row_count - 1][cells.arr2d[row_count - 1].length - 1].i;
     }
 
-    function setTextStr(str) {
-        text.str = text.str.slice(0, text.index[text.page] - 1) + str;
+    function getTextStr(page) {
+        page = typeof page === 'undefined' ? text.page : page;
+        return text.str.slice(text.index[page]);
+    }
+
+    function setTextStr(str, page) {
+        page = typeof page === 'undefined' ? text.page : page;
+        text.str = text.str.slice(0, text.index[page]) + str;
     }
 
     function cellsInit() {
