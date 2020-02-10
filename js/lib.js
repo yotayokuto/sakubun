@@ -5,12 +5,15 @@ $(function(){
         $('<canvas>').addClass('manuscript_paper_background'),
         $('<canvas>').addClass('manuscript_paper_cursor blinking'),
         $('<canvas>').addClass('manuscript_paper_letter'),
-        $('<textarea>')
+        $('<textarea>'),
     );
+    $mp.before($('<div>').addClass('manuscript_paper_button'));
+
     var $mpb = $mp.find('.manuscript_paper_background');
     var $mpl = $mp.find('.manuscript_paper_letter');
     var $mpc = $mp.find('.manuscript_paper_cursor');
     var $mp_t = $mp.find('textarea');
+    var $mp_b = $('.manuscript_paper_button');
 
 
     // 変数セット
@@ -153,6 +156,11 @@ $(function(){
     $mpl[0].addEventListener('mouseover', onOver, false);
     $mpl[0].addEventListener('mouseout', onOut, false);
 
+    // 背景非表示ボタン
+    $mp_b.on('click', function() {
+        $mpb.toggle();
+        $(this).toggleClass('hide');
+    });
 
     function drawInit() {
         var p = {type: 'line'}, p_c = 2, l_c = 0, pos = {x: 0, y: 0};
