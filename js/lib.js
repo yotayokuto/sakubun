@@ -17,37 +17,17 @@ $(function(){
 
 
     // 変数セット
-    var w_o = $mp.width();
-    var h_o = Math.floor(w_o * 0.6);
-    var padding = {'x': 20, 'y': 30};
-    var wrap_space = 5;
-    var w = w_o - padding.x * 2;
-    var h = h_o - padding.y * 2;
-    var w_i = w - wrap_space * 2;
-    var h_i = h - wrap_space * 2;
+    var w_o, h_o, w, h, w_i, h_i, cell_h, row_space_center, row_space, point, cursor, cells;
     var row_count = 20;
     var col_count = 20;
-    var cell_h = h_i / col_count;
-    var row_space_center = cell_h * 1.5;
-    var row_space = (w_i - row_space_center - cell_h * row_count) / row_count;
-    var point = {
-        ini: {
-            x: w_o - padding.x - wrap_space - row_space - cell_h / 2,
-            y: padding.y + wrap_space + cell_h / 2
-        }
-    };
+    var wrap_space = 5;
+    var padding = {'x': 20, 'y': 30};
     var colors = {
         line: '#ffb85a',
         text: '#323232',
         page: '#595959',
         enter: '#e2e2e2',
     };
-
-    var cursor;
-    cursorInit();
-    var cells;
-    cellsInit();
-
     var text = {
         page: 0,
         str: '',
@@ -56,22 +36,8 @@ $(function(){
     };
 
 
-    // サイズ調整
-    $mpb.height(h_o).width(w_o);
-    $mpl.height(h_o).width(w_o);
-    $mpc.height(h_o).width(w_o);
-
-
-    // 解像度調整
-    resize($mpb[0]);
-    resize($mpl[0], $mpb[0]);
-    resize($mpc[0], $mpb[0]);
-
-
     // 解像度調整
     drawInit();
-
-    updateText();
 
 
     function onDown(e) {
@@ -155,6 +121,9 @@ $(function(){
         'focusout': function() {
             $mpl.removeClass('focus');
         },
+        'touchend': function() {
+            drawInit();
+        }
     });
 
     $mpl[0].addEventListener('mousedown', onDown, false);
@@ -170,6 +139,36 @@ $(function(){
     });
 
     function drawInit() {
+        // 変数セット
+        w_o = $mp.width();
+        h_o = Math.floor(w_o * 0.6);
+        w = w_o - padding.x * 2;
+        h = h_o - padding.y * 2;
+        w_i = w - wrap_space * 2;
+        h_i = h - wrap_space * 2;
+        cell_h = h_i / col_count;
+        row_space_center = cell_h * 1.5;
+        row_space = (w_i - row_space_center - cell_h * row_count) / row_count;
+        point = {
+            ini: {
+                x: w_o - padding.x - wrap_space - row_space - cell_h / 2,
+                y: padding.y + wrap_space + cell_h / 2
+            }
+        };
+        cursorInit();
+        cells = { arr:[], arr2d: [] };
+
+        // サイズ調整
+        $mpb.height(h_o).width(w_o);
+        $mpl.height(h_o).width(w_o);
+        $mpc.height(h_o).width(w_o);
+
+        // 解像度調整
+        resize($mpb[0]);
+        resize($mpl[0], $mpb[0]);
+        resize($mpc[0], $mpb[0]);
+
+
         var p = {type: 'line'}, p_c = 2, l_c = 0, pos = {x: 0, y: 0};
 
         var paths = {
@@ -267,6 +266,8 @@ $(function(){
         }
         console.log(paths);
         $mpb.drawPath(paths);
+
+        updateText();
     }
 
     function resize(canvas, target_canvas) {
@@ -577,10 +578,6 @@ $(function(){
     function setTextStr(str, page) {
         page = typeof page === 'undefined' ? text.page : page;
         text.str = text.str.slice(0, text.index[page]) + str;
-    }
-
-    function cellsInit() {
-        cells = { arr:[], arr2d: [] };
     }
 
     function cursorInit() {
