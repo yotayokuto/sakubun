@@ -176,6 +176,7 @@ $(function(){
         resize($mpb[0]);
         resize($mpl[0], $mpb[0]);
         resize($mpc[0], $mpb[0]);
+        $mpw.scrollLeft($mpw.width());
 
 
         var p = {type: 'line'}, p_c = 2, l_c = 0, pos = {x: 0, y: 0};
