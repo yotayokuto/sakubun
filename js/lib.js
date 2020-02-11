@@ -84,10 +84,10 @@ $(function(){
             // １文字削除
             console.log('delete:');
             if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
-                setTextStr(strDel(getTextStr(), cursor.i));
+                setTextStr(strDel(getTextStr(), getCountFromCursorI(cursor.i)));
 
                 // 文字がはみ出ている場合
-                if (getTextStr().length > cells.arr.length) {
+                if (getTextStrLength() > cells.arr.length) {
                     cursor.i--;
                 }
                 updateText();
@@ -108,14 +108,14 @@ $(function(){
         },
         'compositionend': function() {
             ime_flg = false;
-            setTextStr(strIns(getTextStr(), cursor.i + 1, $mp_t.val()));
+            setTextStr(strIns(getTextStr(), getCountFromCursorI(cursor.i) + 1, $mp_t.val()));
             console.log(getTextStr());
             updateText();
             $mp_t.val('');
         },
         'keydown': function(e) {
             if (!ime_flg && (e.key.length === 1 || e.key === 'Enter')) {
-                setTextStr(strIns(getTextStr(), cursor.i + 1, (e.key === 'Enter' ? "←" : e.key)));
+                setTextStr(strIns(getTextStr(), getCountFromCursorI(cursor.i) + 1, (e.key === 'Enter' ? "←" : e.key)));
                 updateText();
                 $mp_t.val('');
             }
@@ -316,7 +316,7 @@ $(function(){
         console.log(text);
         $mpl.clearCanvas();
 
-        var count = 0, rotate = 0, center_adj = 0;
+        var count = 0, rotate = 0, center_adj = 0, str = '', match;
         var pos = {
             ini: point.ini,
             cell: {
@@ -327,13 +327,24 @@ $(function(){
         cells = { arr:[], arr2d: [] };
 
         for (var i = 0; i < limit; i++) {
+            str = getTextStr()[i];
+
+            // 括弧つき数字の場合1文字にまとめる
+            if (jQuery.inArray(str, '(（') !== -1) {
+                match = getTextStr().slice(i, i + 3).match(/(（|\()\d\d?(\)|）)/)
+                if (match) {
+                    str = match[0].replace('（', '(').replace('）', ')');
+                    i += str.length - 1;
+                }
+
+            }
 
             // 縦書き用に90度回転させる
-            rotate = jQuery.inArray(getTextStr()[i], '（）[]【】「」]ー―-') === -1 ? 0 : 90;
+            rotate = str.length === 1 && jQuery.inArray(str, '()（）[]［］【】「」ー―-') !== -1 ? 90 : 0;
 
             // 欄外にはみ出して表示させる
             if ((pos.cell.y === col_count
-                && jQuery.inArray(getTextStr()[i], '。、」') === -1)
+                && jQuery.inArray(str, '。、」') === -1)
                 || pos.cell.y > col_count) {
                 pos.cell.y = 0;
                 pos.cell.x++;
@@ -346,19 +357,19 @@ $(function(){
             center_adj = pos.cell.x >= col_count / 2 ? row_space_center : 0;
 
             $mpl.drawText({
-                fillStyle: getTextStr()[i] !== "←" ? colors.text : colors.enter,
+                fillStyle: str !== "←" ? colors.text : colors.enter,
                 strokeWidth: 1,
                 x: pos.ini.x - pos.cell.x * (cell_h + row_space) - center_adj,
                 y: pos.ini.y + pos.cell.y * cell_h,
-                fontSize: cell_h * 0.8,
+                fontSize: cell_h * (str.length === 1 ? 0.8 : 0.5),
                 fromCenter: true,
                 fontFamily: 'monospace, serif',
-                text: getTextStr()[i],
+                text: str,
                 rotate: rotate
             });
-            setCell(pos.cell.x, pos.cell.y, getTextStr()[i]);
+            setCell(pos.cell.x, pos.cell.y, str, i);
 
-            if (getTextStr()[i] === "←") {
+            if (str === "←") {
                 pos.cell.y = 0;
                 pos.cell.x++;
 
@@ -378,11 +389,11 @@ $(function(){
         // updateRuby('あ', 2, 4);
     }
 
-    function setCell(x, y, str) {
+    function setCell(x, y, str, count) {
         if (!cells.arr2d[x]) {
             cells.arr2d[x] = [];
         }
-        cells.arr2d[x][y] = { i: cells.arr.length, str: str };
+        cells.arr2d[x][y] = { i: cells.arr.length, count: count, str: str };
 
         // 改行は選択しないため、カーソルが次列に来るように座標をセットする
         if (str === '←') {
@@ -486,7 +497,7 @@ $(function(){
         $mpc.clearCanvas();
 
         // カーソルを何文字目に表示するか判定
-        cursor.i = getTextStr().length - 1 + cursor.trans;
+        cursor.i = getTextStrLength() - 1 + cursor.trans;
         if (cursor.i < 0) {
             cursor.cell.x = 0;
             cursor.cell.y = -1;
@@ -500,7 +511,7 @@ $(function(){
 
         // カーソルが次のページに移動した場合
         if (cursor.cell.x > row_count - 1
-            || (getTextStr().length > cells.arr.length && cursor.cell.x === row_count - 1 && cursor.cell.y === col_count - 1)) {
+            || (getTextStrLength() > cells.arr.length && cursor.cell.x === row_count - 1 && cursor.cell.y === col_count - 1)) {
             updatePage('next');
             return;
         }
@@ -594,9 +605,25 @@ $(function(){
         return text.str.slice(text.index[page]);
     }
 
+    function getTextStrLength(page) {
+        page = typeof page === 'undefined' ? text.page : page;
+        return getTextStr(page).replace(/\(\d\d?\)/g, '(').length;
+    }
+
+    function getTextStrLengthAll(page) {
+        page = typeof page === 'undefined' ? text.page : page;
+        return getTextStr(page).length;
+    }
+
     function setTextStr(str, page) {
         page = typeof page === 'undefined' ? text.page : page;
         text.str = text.str.slice(0, text.index[page]) + str;
+    }
+
+    function getCountFromCursorI(i) {
+        return cells.arr.length !== 0
+            ? cells.arr2d[cells.arr[i].x][cells.arr[i].y].count
+            : 0;
     }
 
     function cursorInit() {
