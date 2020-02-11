@@ -34,15 +34,10 @@ body {
     background: none;
     top: 20px;
     left: 20px;
-    max-width: 0;
-    width: 0;
-    height: 0;
-    max-height: 0;
-    padding: 0;
-    margin: 0;
+    width: 100%;
+    height: 30px;
     outline: none;
     border: none;
-    color: transparent;
     overflow: hidden;
     box-sizing: border-box; }
   .manuscript_paper .blinking {
