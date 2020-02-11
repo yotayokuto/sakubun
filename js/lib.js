@@ -1,18 +1,22 @@
 $(function(){
     // Dom初期化
-    var $mp = $('.manuscript_paper');
-    $mp.append(
-        $('<canvas>').addClass('manuscript_paper_background'),
-        $('<canvas>').addClass('manuscript_paper_cursor blinking'),
-        $('<canvas>').addClass('manuscript_paper_letter'),
-        $('<textarea>'),
+    var $mpw = $('.manuscript_paper_wrap');
+    $mpw.append(
+        $('<div>').addClass('manuscript_paper')
+            .append(
+                $('<canvas>').addClass('manuscript_paper_background'),
+                $('<canvas>').addClass('manuscript_paper_cursor blinking'),
+                $('<canvas>').addClass('manuscript_paper_letter')
+            )
     );
-    $mp.before($('<div>').addClass('manuscript_paper_button'));
+    $mpw.before($('<div>').addClass('manuscript_paper_button'));
+    $mpw.before($('<textarea>').addClass('manuscript_paper_textarea'));
 
+    var $mp = $mpw.find('.manuscript_paper');
     var $mpb = $mp.find('.manuscript_paper_background');
     var $mpl = $mp.find('.manuscript_paper_letter');
     var $mpc = $mp.find('.manuscript_paper_cursor');
-    var $mp_t = $mp.find('textarea');
+    var $mp_t = $('.manuscript_paper_textarea');
     var $mp_b = $('.manuscript_paper_button');
 
 
@@ -134,8 +138,12 @@ $(function(){
 
     // 背景非表示ボタン
     $mp_b.on('click', function() {
-        $mpb.toggle();
         $(this).toggleClass('hide');
+        if ($(this).hasClass('hide')) {
+            $mpb.css('opacity', 0);
+        } else {
+            $mpb.css('opacity', 1);
+        }
     });
 
     function drawInit() {

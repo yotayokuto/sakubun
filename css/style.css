@@ -30,18 +30,6 @@ body {
       position: absolute;
       top: 20px;
       left: 20px; }
-  .manuscript_paper textarea {
-    background: none;
-    top: 20px;
-    left: 20px;
-    width: 100%;
-    height: 30px;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    color: transparent;
-    overflow: hidden;
-    box-sizing: border-box; }
   .manuscript_paper .blinking {
     -webkit-animation: blink 0.7s infinite alternate;
     -moz-animation: blink 0.7s infinite alternate;
@@ -84,9 +72,29 @@ body {
   .manuscript_paper_button.hide:before {
     content: "背景を表示する"; }
 
+.manuscript_paper_textarea {
+  background: none;
+  top: 20px;
+  left: 20px;
+  width: 100%;
+  height: 30px;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  color: transparent;
+  overflow: hidden;
+  box-sizing: border-box; }
+
 @media screen and (max-width: 767px) {
   #main {
     width: 100%;
-    max-width: 100%; } }
+    max-width: 100%; }
+
+  .manuscript_paper_wrap {
+    width: 100%;
+    overflow-x: scroll; }
+    .manuscript_paper_wrap .manuscript_paper {
+      max-width: 150%;
+      width: 150%; } }
 
 /*# sourceMappingURL=style.css.map */
