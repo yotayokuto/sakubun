@@ -131,6 +131,13 @@ $(function(){
         }
     });
 
+    $(window).on({
+        'resize': function() {
+            console.log('resize:');
+            drawInit();
+        }
+    });
+
     $mpl[0].addEventListener('mousedown', onDown, false);
     $mpl[0].addEventListener('mouseup', onUp, false);
     $mpl[0].addEventListener('click', onClick, false);
@@ -148,6 +155,8 @@ $(function(){
     });
 
     function drawInit() {
+        $mpb.clearCanvas();
+
         // 変数セット
         w_o = $mp.width();
         h_o = Math.floor(w_o * 0.6);
