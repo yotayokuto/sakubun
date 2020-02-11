@@ -54,6 +54,7 @@ $(function(){
 
     function onClick(e) {
         $mp_t.first().focus();
+        $(document).scrollTop($mp.offset().top);
 
         console.log("click");
         var x = Math.floor((point.ini.x - e.offsetX + cell_h / 2 + row_space) / (cell_h + row_space));
