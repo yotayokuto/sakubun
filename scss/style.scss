@@ -86,14 +86,14 @@ body {
     top: 20px;
     left: 20px;
     width: 100%;
-    height: 30px;
+    height: 1px;
     font-size: 20px;
     // max-width: 0;
     // width: 0;
     // height: 0;
     // max-height: 0;
-    // padding: 0;
-    // margin: 0;
+    padding: 0;
+    margin: 0;
     outline: none;
     border: none;
     color: rgba(0, 0, 0, 0);
@@ -112,8 +112,8 @@ body {
         width: 100%;
         overflow-x: scroll;
         .manuscript_paper {
-            max-width: 150%;
-            width: 150%;
+            max-width: 180%;
+            width: 180%;
         }
     }
 }
