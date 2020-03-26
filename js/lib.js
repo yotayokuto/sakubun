@@ -82,30 +82,37 @@ $(function(){
 
     $(document).keydown(function(event) {
         if (event.which === 8 || event.which === 46) {
-            // １文字削除
-            console.log('delete:');
-            if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
-                setTextStr(strDel(getTextStr(), getCountFromCursorI(cursor.i)));
-
-                // 文字がはみ出ている場合
-                if (getTextStrLength() > cells.arr.length) {
-                    cursor.i--;
-                }
-                updateText();
-            } else if (0 > cursor.i && text.page > 0) {
-                // 1ページ前の末尾を削除
-                setTextStr(strDel(getTextStr(text.page - 1), getTextStr(text.page - 1).length - 1), text.page - 1);
-                updatePage('prev');
-            }
+            deleteOneChar();
         } else if (cursor.move.keys.indexOf(event.key) !== -1) {
             moveCursor(event.key);
         }
     });
 
+    function deleteOneChar() {
+        // １文字削除
+        console.log('delete:');
+        if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
+            setTextStr(strDel(getTextStr(), getCountFromCursorI(cursor.i)));
+
+            // 文字がはみ出ている場合
+            if (getTextStrLength() > cells.arr.length) {
+                cursor.i--;
+            }
+            updateText();
+        } else if (0 > cursor.i && text.page > 0) {
+            // 1ページ前の末尾を削除
+            setTextStr(strDel(getTextStr(text.page - 1), getTextStr(text.page - 1).length - 1), text.page - 1);
+            updatePage('prev');
+        }
+    }
+
     var ime_flg = false;
     $mp_t.on({
         'compositionstart': function() {
             ime_flg = true;
+            if (isIOS) {
+                deleteOneChar();
+            }
         },
         'compositionend': function() {
             ime_flg = false;
