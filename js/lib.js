@@ -90,7 +90,7 @@ $(function(){
 
     function deleteOneChar() {
         // １文字削除
-        console.log('delete:');
+        console.log('delete: ');
         if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
             setTextStr(strDel(getTextStr(), getCountFromCursorI(cursor.i)));
 
@@ -141,7 +141,7 @@ $(function(){
 
     $(window).on({
         'resize': function() {
-            console.log('resize:');
+            console.log('resize: ');
             drawInit();
         }
     });
@@ -557,7 +557,7 @@ $(function(){
             text: '- ' + (text.page + 1) + ' -'
         });
 
-        console.log('cursor.i:' + cursor.i);
+        console.log('cursor.i: ' + cursor.i);
         console.log('cursor.trans: ' + cursor.trans);
     }
 
