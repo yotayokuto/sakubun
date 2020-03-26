@@ -95,10 +95,6 @@ $(function(){
         if (0 <= cursor.i && cursor.i <= cells.arr.length - 1) {
             setTextStr(strDel(getTextStr(), getCountFromCursorI(cursor.i)));
 
-            // 文字がはみ出ている場合
-            if (getTextStrLength() > cells.arr.length) {
-                cursor.i--;
-            }
             updateText();
         }
     }
@@ -384,8 +380,6 @@ $(function(){
         console.log(cells);
 
         updateCursor();
-
-        // updateRuby('あ', 2, 4);
     }
 
     function setCell(x, y, str, count) {
@@ -560,32 +554,6 @@ $(function(){
             $mpw.scrollLeft($mpw.width());
             console.log('scrollX: ' + $mpw.width());
         }
-    }
-
-    function updateRuby(text, x, y) {
-        var pos = {
-            ini: {
-                x: w_o - padding.x - wrap_space - row_space / 2,
-                y: padding.y + wrap_space + cell_h / 2
-            },
-            cell: {
-                x: x, y: y
-            }
-        }
-
-        // 中央の幅を調整する
-        var center_adj = pos.cell.x >= col_count / 2 ? row_space_center : 0;
-
-        $mpl.drawText({
-            fillStyle: colors.text,
-            strokeWidth: 1,
-            x: pos.ini.x - pos.cell.x * (cell_h + row_space) - center_adj,
-            y: pos.ini.y + pos.cell.y * cell_h,
-            fontSize: cell_h * 0.5,
-            fromCenter: true,
-            fontFamily: 'monospace, serif',
-            text: text,
-        });
     }
 
     function updatePageV() {
