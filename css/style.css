@@ -16,6 +16,19 @@ body {
   box-sizing: border-box;
   position: relative;
   /* 点滅 */ }
+  .manuscript_paper:before, .manuscript_paper:after {
+    position: absolute;
+    content: '';
+    top: 21px;
+    width: 18px;
+    height: calc(100% - 48px);
+    background: white;
+    display: block;
+    z-index: 10; }
+  .manuscript_paper:before {
+    left: 21px; }
+  .manuscript_paper:after {
+    right: 20px; }
   .manuscript_paper canvas {
     max-width: 100%;
     width: 100%;

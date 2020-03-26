@@ -16,6 +16,22 @@ body {
     padding: 20px;
     box-sizing: border-box;
     position: relative;
+    &:before, &:after {
+        position: absolute;
+        content: '';
+        top: 21px;
+        width: 18px;
+        height: calc(100% - 48px);
+        background: white;
+        display: block;
+        z-index: 10;
+    }
+    &:before {
+        left: 21px;
+    }
+    &:after {
+        right: 20px;
+    }
     canvas {
         max-width: 100%;
         width: 100%;

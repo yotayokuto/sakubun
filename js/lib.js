@@ -35,6 +35,7 @@ $(function(){
     };
     var text = {
         page: 0,
+        page_v: 0,
         str: '',
         data: [''],
         index: [0]
@@ -99,10 +100,6 @@ $(function(){
                 cursor.i--;
             }
             updateText();
-        } else if (0 > cursor.i && text.page > 0) {
-            // 1ページ前の末尾を削除
-            setTextStr(strDel(getTextStr(text.page - 1), getTextStr(text.page - 1).length - 1), text.page - 1);
-            updatePage('prev');
         }
     }
 
@@ -356,9 +353,6 @@ $(function(){
                 || pos.cell.y > col_count) {
                 pos.cell.y = 0;
                 pos.cell.x++;
-
-                // 最終列を過ぎていた場合
-                if (pos.cell.x > row_count - 1) break;
             }
 
             // 中央の幅を調整する
@@ -367,7 +361,7 @@ $(function(){
             $mpl.drawText({
                 fillStyle: str !== "←" ? colors.text : colors.enter,
                 strokeWidth: 1,
-                x: pos.ini.x - pos.cell.x * (cell_h + row_space) - center_adj,
+                x: pos.ini.x - pos.cell.x * (cell_h + row_space) - center_adj + text.page_v * w,
                 y: pos.ini.y + pos.cell.y * cell_h,
                 fontSize: cell_h * (str.length === 1 ? 0.8 : 0.5),
                 fromCenter: true,
@@ -380,9 +374,6 @@ $(function(){
             if (str === "←") {
                 pos.cell.y = 0;
                 pos.cell.x++;
-
-                // 最終列を過ぎていた場合
-                if (pos.cell.x > row_count - 1) break;
 
                 continue;
             }
@@ -450,15 +441,6 @@ $(function(){
             console.log('x: ' + x);
             console.log('y: ' + y);
 
-            // ページ遷移が起きる場合
-            if (x > row_count - 1 && updatePage('next')) {
-                focusCursor(0, y);
-                return;
-            } else if (x < 0 && updatePage('prev')) {
-                focusCursor(row_count - 1, y);
-                return;
-            }
-
             // 列がない場合
             if (!cells.arr2d[x]) return;
 
@@ -518,11 +500,7 @@ $(function(){
         }
 
         // カーソルが次のページに移動した場合
-        if (cursor.cell.x > row_count - 1
-            || (getTextStrLength() > cells.arr.length && cursor.cell.x === row_count - 1 && cursor.cell.y === col_count - 1)) {
-            updatePage('next');
-            return;
-        }
+        if (updatePageV()) return;
 
         // 中央の幅を調整する
         var center_adj = cursor.cell.x >= col_count / 2 ? row_space_center : 0;
@@ -538,9 +516,9 @@ $(function(){
             // カーソル
             p1: {
                 type: 'line',
-                x1: cursor.x,
+                x1: cursor.x + text.page_v * w,
                 y1: cursor.y,
-                x2: cursor.x + cell_h,
+                x2: cursor.x + cell_h + text.page_v * w,
                 y2: cursor.y,
             },
         });
@@ -554,7 +532,7 @@ $(function(){
             fontSize: cell_h * 0.7,
             fromCenter: true,
             fontFamily: 'monospace, serif',
-            text: '- ' + (text.page + 1) + ' -'
+            text: '- ' + (text.page_v + 1) + ' -'
         });
 
         scrollToCursor()
@@ -610,21 +588,14 @@ $(function(){
         });
     }
 
-    function updatePage(type) {
-        if (type === 'next') {
-            var i = getLastCellIndex();
-            if (getTextStr().length < i + 1) return false;
-
-            text.index[text.page + 1] = text.index[text.page] + i + 1;
-            setTextStr(getTextStr().slice(i + 1), text.page + 1);
-            text.page++;
-        } else if(type === 'prev' && text.page > 0) {
-            text.page--;
-        } else {
-            return false;
+    function updatePageV() {
+        var page_v = Math.floor(cursor.cell.x / row_count);
+        if (text.page_v !== page_v) {
+            text.page_v = page_v;
+            updateText();
+            return true;
         }
-        updateText();
-        return true;
+        return false;
     }
 
     function getLastCellIndex() {
