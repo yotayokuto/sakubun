@@ -336,7 +336,7 @@ $(function(){
 
             // 括弧つき数字の場合1文字にまとめる
             if (jQuery.inArray(str, '(（') !== -1) {
-                match = getTextStr().slice(i, i + 3).match(/(（|\()\d\d?(\)|）)/)
+                match = getTextStr().slice(i, i + 4).match(/(（|\()\d\d?(\)|）)/)
                 if (match) {
                     str = match[0].replace('（', '(').replace('）', ')');
                     i += str.length - 1;
