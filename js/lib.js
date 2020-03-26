@@ -557,8 +557,31 @@ $(function(){
             text: '- ' + (text.page + 1) + ' -'
         });
 
+        scrollToCursor()
+
         console.log('cursor.i: ' + cursor.i);
         console.log('cursor.trans: ' + cursor.trans);
+    }
+
+    // 画面内にカーソルが収まるようにスクロール
+    function scrollToCursor() {
+        // y軸調整
+        if ($mp.height() / 2  < cursor.y) {
+            $(document).scrollTop($mp.offset().top + cursor.y - $mp.height() / 2);
+            console.log('scrollY: ' + ($mp.offset().top + cursor.y - $mp.height() / 2));
+        } else {
+            $(document).scrollTop($mp.offset().top);
+            console.log('scrollY: ' + $mp.offset().top);
+        }
+
+        // x軸調整
+        if ($mpb.width() / 2 > cursor.x) {
+            $mpw.scrollLeft(0);
+            console.log('scrollX: ' + 0);
+        } else {
+            $mpw.scrollLeft($mpw.width());
+            console.log('scrollX: ' + $mpw.width());
+        }
     }
 
     function updateRuby(text, x, y) {
