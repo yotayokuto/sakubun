@@ -653,7 +653,9 @@ $(function(){
 
     function getCountFromCursorI(i) {
         return cells.arr.length !== 0
-            ? cells.arr2d[cells.arr[i].x][cells.arr[i].y].count
+            ? (cells.arr[i].y !== -1
+                ? cells.arr2d[cells.arr[i].x][cells.arr[i].y].count
+                : cells.arr2d[cells.arr[i].x - 1][cells.arr2d[cells.arr[i].x - 1].length - 1].count) // 1列目以外の1文字目が改行の時の処理
             : 0;
     }
 
