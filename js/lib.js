@@ -21,10 +21,11 @@ $(function(){
 
 
     // 変数セット
+    var isIOS = /iP(hone|(o|a)d)/.test(navigator.userAgent);
     var w_o, h_o, w, h, w_i, h_i, cell_h, row_space_center, row_space, point, cursor, cells;
     var row_count = 20;
     var col_count = 20;
-    var wrap_space = 5;
+    var wrap_space = 0;
     var padding = {'x': 20, 'y': 30};
     var colors = {
         line: '#ffb85a',
@@ -159,13 +160,13 @@ $(function(){
 
         // 変数セット
         w_o = $mp.width();
-        h_o = Math.floor(w_o * 0.6);
+        h_o = Math.floor(w_o * 0.8);
         w = w_o - padding.x * 2;
         h = h_o - padding.y * 2;
         w_i = w - wrap_space * 2;
         h_i = h - wrap_space * 2;
         cell_h = h_i / col_count;
-        row_space_center = cell_h * 1.5;
+        row_space_center = cell_h * 1.2;
         row_space = (w_i - row_space_center - cell_h * row_count) / row_count;
         point = {
             ini: {
