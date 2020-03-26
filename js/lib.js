@@ -352,7 +352,7 @@ $(function(){
             }
 
             // 中央の幅を調整する
-            center_adj = pos.cell.x >= col_count / 2 ? row_space_center : 0;
+            center_adj = Math.floor(pos.cell.x / row_count) * row_space_center + (pos.cell.x % row_count >= row_count / 2 ? row_space_center : 0);
 
             $mpl.drawText({
                 fillStyle: str !== "←" ? colors.text : colors.enter,
@@ -497,7 +497,7 @@ $(function(){
         if (updatePageV()) return;
 
         // 中央の幅を調整する
-        var center_adj = cursor.cell.x >= col_count / 2 ? row_space_center : 0;
+        var center_adj = text.page_v * row_space_center + (cursor.cell.x % row_count >= row_count / 2 ? row_space_center : 0);
 
         // カーソル表示の座標を算出
         cursor.x = point.ini.x - cursor.cell.x * (cell_h + row_space) - center_adj - cell_h / 2;
@@ -547,7 +547,7 @@ $(function(){
         }
 
         // x軸調整
-        if ($mpb.width() / 2 > cursor.x) {
+        if (w / 2 < (w - cursor.x) % w) {
             $mpw.scrollLeft(0);
             console.log('scrollX: ' + 0);
         } else {
