@@ -112,5 +112,22 @@ body {
     .manuscript_paper_wrap .manuscript_paper {
       max-width: 200%;
       width: 200%; } }
+.manuscript_paper_input_wrap {
+  font-family: monospace, serif;
+  width: calc(100% - 40px);
+  height: calc(20em + 20px + 42px);
+  background: #dfdfdf;
+  box-sizing: border-box;
+  text-align: left;
+  margin: 20px;
+  padding: 10px;
+  letter-spacing: 2px;
+  line-height: 2rem;
+  writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
+  -o-writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
+  text-orientation: upright; }
 
 /*# sourceMappingURL=style.css.map */
