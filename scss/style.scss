@@ -39,7 +39,7 @@ body {
         padding: 10px 10px 26px 10px;
         box-sizing: border-box;
         word-break: break-all;
-        overflow-wrap:break-word
+        overflow-wrap: break-word
     }
 
     .manuscript_paper_input {
@@ -60,12 +60,19 @@ body {
 
             &:before {
                 position: absolute;
-                content: "、";
                 right: 0;
                 top: 0;
                 width: 1em;
                 height: 1em;
                 font-size: 1rem;
+            }
+
+            &.hanging_comma:before {
+                content: "、";
+            }
+
+            &.hanging_period:before {
+                content: "。";
             }
         }
     }

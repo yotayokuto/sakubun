@@ -51,12 +51,15 @@ body {
       letter-spacing: 0; }
       .manuscript_paper_input_wrap .manuscript_paper_view span:before {
         position: absolute;
-        content: "、";
         right: 0;
         top: 0;
         width: 1em;
         height: 1em;
         font-size: 1rem; }
+      .manuscript_paper_input_wrap .manuscript_paper_view span.hanging_comma:before {
+        content: "、"; }
+      .manuscript_paper_input_wrap .manuscript_paper_view span.hanging_period:before {
+        content: "。"; }
 
 @media screen and (max-width: 767px) {
   #main {
