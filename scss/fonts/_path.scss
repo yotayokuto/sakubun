@@ -1,0 +1,21 @@
+// Font paths
+// -------------------------
+
+@font-face {
+  font-family: "Favorites";
+  src: url("../fonts/Favorites.eot");
+  src: url("../fonts/Favorites.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/Favorites.woff2") format("woff2"),
+  url("../fonts/Favorites.woff") format("woff"),
+  url("../fonts/Favorites.ttf") format("truetype"),
+  url("../fonts/Favorites.svg#font") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Favorites";
+    src: url("../fonts/Favorites.svg#Favorites") format("svg");
+  }
+}

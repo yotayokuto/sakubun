@@ -1,3 +1,5 @@
+@import "fonts/styles.scss";
+
 body {
     background: #dfdfdf;
 }
@@ -28,10 +30,11 @@ body {
     -moz-writing-mode: vertical-rl;
     -o-writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
+    text-orientation: upright;
     word-break: break-all;
     overflow-wrap: break-word;
     position: relative;
-    font-family: monospace, serif;
+    font-family: "Favorites", monospace, serif;
 
     & > div {
         width: 100%;

@@ -1,0 +1,211 @@
+// Icons
+// -------------------------
+
+.icons8-99:before,
+.icons8-98:before,
+.icons8-97:before,
+.icons8-96:before,
+.icons8-95:before,
+.icons8-94:before,
+.icons8-93:before,
+.icons8-92:before,
+.icons8-91:before,
+.icons8-90:before,
+.icons8-11:before,
+.icons8-9:before,
+.icons8-89:before,
+.icons8-88:before,
+.icons8-80:before,
+.icons8-81:before,
+.icons8-82:before,
+.icons8-83:before,
+.icons8-84:before,
+.icons8-85:before,
+.icons8-86:before,
+.icons8-87:before,
+.icons8-73:before,
+.icons8-74:before,
+.icons8-75:before,
+.icons8-76:before,
+.icons8-77:before,
+.icons8-78:before,
+.icons8-79:before,
+.icons8-8:before,
+.icons8-72:before,
+.icons8-71:before,
+.icons8-70:before,
+.icons8-7:before,
+.icons8-69:before,
+.icons8-68:before,
+.icons8-67:before,
+.icons8-66:before,
+.icons8-59:before,
+.icons8-6:before,
+.icons8-60:before,
+.icons8-61:before,
+.icons8-62:before,
+.icons8-63:before,
+.icons8-64:before,
+.icons8-65:before,
+.icons8-58:before,
+.icons8-57:before,
+.icons8-56:before,
+.icons8-55:before,
+.icons8-54:before,
+.icons8-53:before,
+.icons8-52:before,
+.icons8-51:before,
+.icons8-44:before,
+.icons8-45:before,
+.icons8-46:before,
+.icons8-47:before,
+.icons8-48:before,
+.icons8-49:before,
+.icons8-5:before,
+.icons8-50:before,
+.icons8-43:before,
+.icons8-42:before,
+.icons8-41:before,
+.icons8-40:before,
+.icons8-4:before,
+.icons8-39:before,
+.icons8-38:before,
+.icons8-37:before,
+.icons8-3:before,
+.icons8-30:before,
+.icons8-31:before,
+.icons8-32:before,
+.icons8-33:before,
+.icons8-34:before,
+.icons8-35:before,
+.icons8-36:before,
+.icons8-29:before,
+.icons8-28:before,
+.icons8-27:before,
+.icons8-26:before,
+.icons8-25:before,
+.icons8-24:before,
+.icons8-23:before,
+.icons8-22:before,
+.icons8-15:before,
+.icons8-16:before,
+.icons8-17:before,
+.icons8-18:before,
+.icons8-19:before,
+.icons8-2:before,
+.icons8-20:before,
+.icons8-21:before,
+.icons8-14:before,
+.icons8-13:before,
+.icons8-12:before,
+.icons8-100:before,
+.icons8-10:before,
+.icons8-1:before,
+.icons8---:before,
+[data-icons8]:before {
+  @include icons8-font;
+}
+
+[data-icons8]:before { content: attr(data-icons8); }
+
+.icons8-99:before {content: $icons8-var-99;}
+.icons8-98:before {content: $icons8-var-98;}
+.icons8-97:before {content: $icons8-var-97;}
+.icons8-96:before {content: $icons8-var-96;}
+.icons8-95:before {content: $icons8-var-95;}
+.icons8-94:before {content: $icons8-var-94;}
+.icons8-93:before {content: $icons8-var-93;}
+.icons8-92:before {content: $icons8-var-92;}
+.icons8-91:before {content: $icons8-var-91;}
+.icons8-90:before {content: $icons8-var-90;}
+.icons8-11:before {content: $icons8-var-11;}
+.icons8-9:before {content: $icons8-var-9;}
+.icons8-89:before {content: $icons8-var-89;}
+.icons8-88:before {content: $icons8-var-88;}
+.icons8-80:before {content: $icons8-var-80;}
+.icons8-81:before {content: $icons8-var-81;}
+.icons8-82:before {content: $icons8-var-82;}
+.icons8-83:before {content: $icons8-var-83;}
+.icons8-84:before {content: $icons8-var-84;}
+.icons8-85:before {content: $icons8-var-85;}
+.icons8-86:before {content: $icons8-var-86;}
+.icons8-87:before {content: $icons8-var-87;}
+.icons8-73:before {content: $icons8-var-73;}
+.icons8-74:before {content: $icons8-var-74;}
+.icons8-75:before {content: $icons8-var-75;}
+.icons8-76:before {content: $icons8-var-76;}
+.icons8-77:before {content: $icons8-var-77;}
+.icons8-78:before {content: $icons8-var-78;}
+.icons8-79:before {content: $icons8-var-79;}
+.icons8-8:before {content: $icons8-var-8;}
+.icons8-72:before {content: $icons8-var-72;}
+.icons8-71:before {content: $icons8-var-71;}
+.icons8-70:before {content: $icons8-var-70;}
+.icons8-7:before {content: $icons8-var-7;}
+.icons8-69:before {content: $icons8-var-69;}
+.icons8-68:before {content: $icons8-var-68;}
+.icons8-67:before {content: $icons8-var-67;}
+.icons8-66:before {content: $icons8-var-66;}
+.icons8-59:before {content: $icons8-var-59;}
+.icons8-6:before {content: $icons8-var-6;}
+.icons8-60:before {content: $icons8-var-60;}
+.icons8-61:before {content: $icons8-var-61;}
+.icons8-62:before {content: $icons8-var-62;}
+.icons8-63:before {content: $icons8-var-63;}
+.icons8-64:before {content: $icons8-var-64;}
+.icons8-65:before {content: $icons8-var-65;}
+.icons8-58:before {content: $icons8-var-58;}
+.icons8-57:before {content: $icons8-var-57;}
+.icons8-56:before {content: $icons8-var-56;}
+.icons8-55:before {content: $icons8-var-55;}
+.icons8-54:before {content: $icons8-var-54;}
+.icons8-53:before {content: $icons8-var-53;}
+.icons8-52:before {content: $icons8-var-52;}
+.icons8-51:before {content: $icons8-var-51;}
+.icons8-44:before {content: $icons8-var-44;}
+.icons8-45:before {content: $icons8-var-45;}
+.icons8-46:before {content: $icons8-var-46;}
+.icons8-47:before {content: $icons8-var-47;}
+.icons8-48:before {content: $icons8-var-48;}
+.icons8-49:before {content: $icons8-var-49;}
+.icons8-5:before {content: $icons8-var-5;}
+.icons8-50:before {content: $icons8-var-50;}
+.icons8-43:before {content: $icons8-var-43;}
+.icons8-42:before {content: $icons8-var-42;}
+.icons8-41:before {content: $icons8-var-41;}
+.icons8-40:before {content: $icons8-var-40;}
+.icons8-4:before {content: $icons8-var-4;}
+.icons8-39:before {content: $icons8-var-39;}
+.icons8-38:before {content: $icons8-var-38;}
+.icons8-37:before {content: $icons8-var-37;}
+.icons8-3:before {content: $icons8-var-3;}
+.icons8-30:before {content: $icons8-var-30;}
+.icons8-31:before {content: $icons8-var-31;}
+.icons8-32:before {content: $icons8-var-32;}
+.icons8-33:before {content: $icons8-var-33;}
+.icons8-34:before {content: $icons8-var-34;}
+.icons8-35:before {content: $icons8-var-35;}
+.icons8-36:before {content: $icons8-var-36;}
+.icons8-29:before {content: $icons8-var-29;}
+.icons8-28:before {content: $icons8-var-28;}
+.icons8-27:before {content: $icons8-var-27;}
+.icons8-26:before {content: $icons8-var-26;}
+.icons8-25:before {content: $icons8-var-25;}
+.icons8-24:before {content: $icons8-var-24;}
+.icons8-23:before {content: $icons8-var-23;}
+.icons8-22:before {content: $icons8-var-22;}
+.icons8-15:before {content: $icons8-var-15;}
+.icons8-16:before {content: $icons8-var-16;}
+.icons8-17:before {content: $icons8-var-17;}
+.icons8-18:before {content: $icons8-var-18;}
+.icons8-19:before {content: $icons8-var-19;}
+.icons8-2:before {content: $icons8-var-2;}
+.icons8-20:before {content: $icons8-var-20;}
+.icons8-21:before {content: $icons8-var-21;}
+.icons8-14:before {content: $icons8-var-14;}
+.icons8-13:before {content: $icons8-var-13;}
+.icons8-12:before {content: $icons8-var-12;}
+.icons8-100:before {content: $icons8-var-100;}
+.icons8-10:before {content: $icons8-var-10;}
+.icons8-1:before {content: $icons8-var-1;}
+.icons8---:before {content: $icons8-var---;}
