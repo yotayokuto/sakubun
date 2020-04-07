@@ -23,6 +23,7 @@ body {
     box-shadow: 1px 1px 4px 1px #d6d6d6a8;
     text-align: left;
     margin: 20px;
+    margin-bottom: 0;
     letter-spacing: 2px;
     line-height: 2rem;
     writing-mode: tb-rl;
@@ -42,7 +43,9 @@ body {
         padding: 10px 10px 26px 10px;
         box-sizing: border-box;
         word-break: break-all;
-        overflow-wrap: break-word
+        overflow-wrap: break-word;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
 
     .manuscript_paper_input {
@@ -81,6 +84,13 @@ body {
     }
 }
 
+.manuscript_paper_page {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
 
 
 @media screen and (max-width:767px){
@@ -93,7 +103,6 @@ body {
         letter-spacing: 0;
         font-size: 14px;
         & > div {
-            padding: 10px 10px 24px 10px;
         }
         .manuscript_paper_input {
         }
